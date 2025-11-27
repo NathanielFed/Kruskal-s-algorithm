@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Small SVG helpers */
+.edge-line { stroke: #9ca3af; stroke-width: 2; opacity: 0.8; }
+.edge-current { stroke: #f59e0b; stroke-width: 3.5; }
+.edge-accepted { stroke: #10b981; stroke-width: 3.5; opacity: 1; }
+.edge-rejected { stroke: #ef4444; stroke-width: 2; opacity: 0.4; }
+.node-circle { stroke: #111827; stroke-width: 1; }
+.node-label { fill: #111827; font-size: 12px; }

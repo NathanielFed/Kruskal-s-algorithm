@@ -1,5 +1,6 @@
 import { useKruskal } from "../hooks/useKruskal";
 import { useState } from "react";
+import GraphBuilderDialog from "./GraphBuilderDialog";
 
 export default function Controls() {
   const { sortedIdx, graph, totalWeight, playing, speed, actions } = useKruskal();
@@ -55,6 +56,8 @@ export default function Controls() {
         >
           Generate Graph
         </button>
+        {/* NEW: Shadcn button + dialog trigger */}
+        <GraphBuilderDialog />
         <button
           onClick={() => actions.stepPrev()}
           className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded"

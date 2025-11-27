@@ -27,14 +27,13 @@ export function generateRandomGraph(n: number, p: number, width = 800, height = 
     }
   }
 
-  // Use D3-force to spread nodes out with simple physics
+  // Spread nodes out with simple physics
   const sim = forceSimulation(nodes as any)
     .force("charge", forceManyBody().strength(-80))
     .force("center", forceCenter(width / 2, height / 2))
     .force("collision", forceCollide(18))
     .force(
       "link",
-      // Cast links to any to satisfy D3's complex generics and avoid TS errors
       forceLink((rawEdges.map((e) => ({ source: e.u, target: e.v })) as any))
         .id((d: any) => d.id)
         .distance(100)

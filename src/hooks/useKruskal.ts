@@ -3,6 +3,7 @@ import type { Edge, Graph, KruskalState } from "../types";
 import { UnionFind } from "./useUnionFind";
 import { generateRandomGraph } from "./useGraph";
 
+// In Actions type + store creation
 type Actions = {
   generate: (n: number, p: number) => void;
   stepNext: () => void;
@@ -10,6 +11,7 @@ type Actions = {
   resetRun: () => void;
   togglePlay: () => void;
   setSpeed: (s: number) => void;
+  loadGraph: (graph: Graph) => void; // NEW
 };
 
 type Store = KruskalState & {
@@ -80,7 +82,7 @@ export const useKruskal = create<Store>((set, get) => ({
       for (let i = 0; i < sortedIdx - 1; i++) {
         const e = edges[i];
         const merged = dsu.union(e.u, e.v);
-        edges[i] = { ...e, state: merged ? "accepted" : "rejected" };
+        edges[i] = { ...e, state: merged ? "accepted" : "rejected" } as Edge;
         if (merged) total += e.w;
       }
 
@@ -110,7 +112,21 @@ export const useKruskal = create<Store>((set, get) => ({
       set({ playing: !playing });
     },
 
-    setSpeed: (s: number) => set({ speed: s })
+    setSpeed: (s: number) => set({ speed: s }),
+    loadGraph: (graph: Graph) => {
+      const dsu = new UnionFind(graph.nodes.length);
+      // Ensure edges sorted by weight
+      const edges = graph.edges
+        .map((e) => ({ ...e, state: null }))
+        .sort((a, b) => a.w - b.w);
+      set({
+        graph: { nodes: graph.nodes, edges },
+        dsu,
+        sortedIdx: 0,
+        totalWeight: 0,
+        playing: false
+      });
+    }
   }
 }));
 
